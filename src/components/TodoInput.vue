@@ -5,7 +5,7 @@
       <span class="btnAdd" v-on:click="addTodo">➕</span>
     </div>
     <div class="editInput">
-      <input class="input" v-if="isEdit" v-model="editItem" v-on:keyup.enter="editTodo"/>
+      <input class="input" v-if="isEdit" v-model="editItem" v-on:keyup.enter="editTodo" autofocus/>
       <span id="editInput" class="btnEdit" v-if="isEdit" v-on:click="editTodo">✏️</span>
     </div>
   </div>
@@ -37,8 +37,8 @@ export default {
   },
   methods: {
     addTodo(){
-      if(this.newTodoItem =='') {
-          return
+      if(this.newTodoItem ==='') {
+          return;
       }
       else{
         var obj = { item: this.newTodoItem && this.newTodoItem.trim(), isCompleted: false};
