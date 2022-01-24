@@ -31,6 +31,7 @@ export default {
       isEdit : false,
       isCompleted: false,
       editItem : "",
+      todolist : this.propsdata
     }
   },
   props: {
@@ -39,20 +40,21 @@ export default {
   },
   methods: {
     check(todoItem, index){
-      var isChecked = document.getElementById('checkList_'+index).checked;
+      let isChecked = document.getElementById('checkList_'+index).checked;
       if(isChecked){
         isChecked = false;
-        var obj2 = { item : todoItem, isCompleted: true };
+        let obj2 = { item : todoItem, isCompleted: true };
         document.getElementById('item_'+ index).style.textDecoration ="line-through";
         document.getElementById('item_'+ index).style.color ="gray";
+        this.$emit('check', obj2, index)
       }
       else{
         isChecked = true
-        obj2 = { item : todoItem, isCompleted: false }
+        let obj2 = { item : todoItem, isCompleted: false }
         document.getElementById('item_'+ index).style.textDecoration ="none"
         document.getElementById('item_'+ index).style.color ="black"
+        this.$emit('check', obj2, index)
       }
-      this.$emit('check', obj2, index)
       return isChecked
     },
     editBtn(todoItem, index){
@@ -101,6 +103,7 @@ export default {
   right: 50px;
   cursor: pointer;
   align-items: center;
+  &:hover { opacity: 60% }
 }
 .listSection{
   list-style: none;
@@ -129,6 +132,7 @@ export default {
 .btn{
   margin: 5px;
   cursor: pointer;
+  &:hover { opacity: 60% }
 }
 .btnClear{
   border-radius: 10px;
@@ -139,5 +143,8 @@ export default {
   cursor: pointer;
   color: red;
   font-family: 'SANGJUDajungdagam';
+  &:hover { width: 110px;
+    height: 55px;
+  font-size: 22px; }
 }
 </style>

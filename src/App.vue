@@ -89,7 +89,7 @@ export default {
   components: {
     TodoHeader,
     TodoList,
-    TodoInput
+    TodoInput,
   }
 }
 </script>

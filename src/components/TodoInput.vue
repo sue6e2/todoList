@@ -6,7 +6,7 @@
     </div>
     <div class="editInput">
       <input class="input" v-if="isEdit" v-bind:value="editBefore" v-on:keyup.enter="editTodo" autofocus/>
-      <span id="editInput" class="btnEdit" v-if="isEdit" v-on:click="editTodo(val)">✏️</span>
+      <span id="editInput" class="btnEdit" v-if="isEdit" v-on:click="editTodo">✏️</span>
     </div>
   </div>
 </template>
@@ -41,31 +41,37 @@ export default {
           return;
       }
       else{
-        var obj = { item: this.newTodoItem && this.newTodoItem.trim(), isCompleted: false};
+        let obj = { item: this.newTodoItem && this.newTodoItem.trim(), isCompleted: false};
         this.itemArray.push(obj)
         this.newTodoItem = "";
         this.$emit('addTodo', this.itemArray, obj);
       }
     },
     editTodo(val){
-      var editedItem = val.target.value
+      let editedItem = val.target.value || val.path[1].firstChild.value
+
       if(this.todoItems.indexOf(editedItem) !== -1){
         alert('이미 존재하는 할일입니다.')
         this.editItem = ""
       }
       else{
-        this.editItem = val.target.value
-        this.isCompleted = false;
+        if(editedItem){
+          this.editItem = val.target.value
+          this.isCompleted = false;
 
-        var obj = { item: editedItem && editedItem.trim(), isCompleted: false};
-        var itemArray = JSON.parse(localStorage.getItem('todolist'))
-        itemArray[this.itemIndex] = obj
-        var itemArray2 = JSON.stringify(itemArray)
-        localStorage.setItem('todolist', itemArray2);
+          let obj = { item: editedItem && editedItem.trim(), isCompleted: false};
+          let itemArray = JSON.parse(localStorage.getItem('todolist'))
+          itemArray[this.itemIndex] = obj
+          let itemArray2 = JSON.stringify(itemArray)
+          localStorage.setItem('todolist', itemArray2);
 
-        this.editItem=""
-        this.isEdit2 = false;
-        this.$emit('editTodo', this.itemIndex, editedItem, this.isEdit2, itemArray2);
+          this.editItem=""
+          this.isEdit2 = false;
+          this.$emit('editTodo', this.itemIndex, editedItem, this.isEdit2, itemArray2);
+        }
+        else{
+          alert('수정할 값을 입력해주세요.')
+        }
       }
     },
   }
