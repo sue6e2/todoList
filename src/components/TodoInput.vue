@@ -5,8 +5,8 @@
       <span class="btnAdd" v-on:click="addTodo">➕</span>
     </div>
     <div class="editInput">
-      <input class="input" v-if="isEdit" v-model="editItem" v-on:keyup.enter="editTodo" autofocus/>
-      <span id="editInput" class="btnEdit" v-if="isEdit" v-on:click="editTodo">✏️</span>
+      <input class="input" v-if="isEdit" v-bind:value="editBefore" v-on:keyup.enter="editTodo" autofocus/>
+      <span id="editInput" class="btnEdit" v-if="isEdit" v-on:click="editTodo(val)">✏️</span>
     </div>
   </div>
 </template>
@@ -47,15 +47,15 @@ export default {
         this.$emit('addTodo', this.itemArray, obj);
       }
     },
-    editTodo(){
-      console.log(this.todoItems)
-      if(this.todoItems.indexOf(this.editItem) !== -1){
+    editTodo(val){
+      var editedItem = val.target.value
+      if(this.todoItems.indexOf(editedItem) !== -1){
         alert('이미 존재하는 할일입니다.')
         this.editItem = ""
       }
       else{
+        this.editItem = val.target.value
         this.isCompleted = false;
-        var editedItem = this.editItem;
 
         var obj = { item: editedItem && editedItem.trim(), isCompleted: false};
         var itemArray = JSON.parse(localStorage.getItem('todolist'))

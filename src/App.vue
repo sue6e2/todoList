@@ -80,8 +80,9 @@ export default {
       }
     },
     clearAll(){
-      localStorage.clear();
-      this.todoItems =[];
+      this.isEdit = false
+      localStorage.clear()
+      this.todoItems =[]
       this.msg = "할일이 없어요."
     }
   },
