@@ -58,12 +58,12 @@ export default {
     editBtn(todoItem, index){
       if(this.isEdit){
         this.isEdit = false
-        this.$emit('fnIsEdit', this.isEdit, todoItem)
+        this.$emit('editBtn', this.isEdit, todoItem, index)
       }
       else{
         this.isEdit = true
         this.editItem = this.propsdata[index]
-        this.$emit('fnIsEdit', this.isEdit, todoItem)
+        this.$emit('editBtn', this.isEdit, todoItem, index)
       }
     },
     removeTodo(todoItem, index){

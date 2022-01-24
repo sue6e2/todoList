@@ -5,10 +5,12 @@
                v-on:editTodo="editTodo"
                v-bind:isEdit="isEdit"
                v-bind:editBefore="editBefore"
+               v-bind:itemIndex="itemIndex"
+               v-bind:todoItems="todoItems"
     />
     <TodoList
         v-on:removeTodo="removeTodo"
-        v-on:fnIsEdit="fnIsEdit"
+        v-on:editBtn="editBtn"
         v-on:removeAll="clearAll"
         v-on:check="check"
         v-bind:propsdata="todoItems"
@@ -29,7 +31,8 @@ export default {
       todoItems:[],
       editBefore : "",
       isEdit: false,
-      msg:""
+      msg:"",
+      itemIndex: 0
     }
   },
   created(){
@@ -40,7 +43,6 @@ export default {
               this.todoItems.push(array[i].item)
           }
         }
-        console.log(this.todoItems.length)
         if(this.todoItems.length === 0){
           this.msg = "오늘은 할일이 없어요."
         }
@@ -48,38 +50,27 @@ export default {
   methods: {
     addTodo(itemArray, obj){
       if(this.todoItems.indexOf(obj.item) !== -1){
-        console.log(this.todoItems);
         alert("이미 존재하는 할일 입니다.");
       }
       else{
       this.msg =""
       var array2 = JSON.stringify(itemArray)
       localStorage.setItem('todolist', array2)
-      console.log(obj.item)
       this.todoItems.push(obj.item)
-
-        // this.todoItems[2]=355
-        // console.log(this.todoItems[0])
-        // console.log(this.todoItems[1])
       }
     },
     check(obj2){
-      // localStorage.setItem(obj2.item, JSON.stringify(obj2))
       var a =  JSON.stringify(obj2)
       localStorage.setItem('todolist', a)
-      console.log(obj2);
     },
-    fnIsEdit(isEdit, todoItem){
-      console.log(isEdit)
+    editBtn(isEdit, todoItem, index){
       this.isEdit = isEdit
       this.editBefore = todoItem
+      this.itemIndex = index
     },
     editTodo(index, editedItem, isEdit2){
-      console.log(isEdit2)
       this.isEdit = isEdit2
-      console.log(editedItem);
-      this.todoItems.splice(index,1);
-      this.todoItems.push(editedItem);
+      this.todoItems.splice(index,1, editedItem)
     },
     removeTodo(todoItem, index){
       localStorage.removeItem(todoItem);
