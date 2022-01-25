@@ -6,7 +6,7 @@
     </div>
     <div class="editInput">
       <input class="input" v-if="isEdit" v-bind:value="editBefore" v-on:keyup.enter="editTodo" autofocus/>
-      <span id="editInput" class="btnEdit" v-if="isEdit" v-on:click="editTodo">✏️</span>
+      <span class="btnEdit" v-if="isEdit" v-on:click="editTodo">✏️</span>
     </div>
   </div>
 </template>
@@ -41,10 +41,10 @@ export default {
           return;
       }
       else{
-        let obj = { item: this.newTodoItem && this.newTodoItem.trim(), isCompleted: false};
+        let obj = { item: this.newTodoItem && this.newTodoItem.trim(), isCompleted: false}
         this.itemArray.push(obj)
-        this.newTodoItem = "";
-        this.$emit('addTodo', this.itemArray, obj);
+        this.newTodoItem = ""
+        this.$emit('addTodo', this.itemArray, obj)
       }
     },
     editTodo(val){
@@ -59,15 +59,15 @@ export default {
           this.editItem = val.target.value
           this.isCompleted = false;
 
-          let obj = { item: editedItem && editedItem.trim(), isCompleted: false};
+          let obj = { item: editedItem && editedItem.trim(), isCompleted: false}
           let itemArray = JSON.parse(localStorage.getItem('todolist'))
           itemArray[this.itemIndex] = obj
           let itemArray2 = JSON.stringify(itemArray)
-          localStorage.setItem('todolist', itemArray2);
+          localStorage.setItem('todolist', itemArray2)
 
           this.editItem=""
-          this.isEdit2 = false;
-          this.$emit('editTodo', this.itemIndex, editedItem, this.isEdit2, itemArray2);
+          this.isEdit2 = false
+          this.$emit('editTodo', this.itemIndex, editedItem, this.isEdit2, itemArray2)
         }
         else{
           alert('수정할 값을 입력해주세요.')

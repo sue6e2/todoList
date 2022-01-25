@@ -15,6 +15,7 @@
         v-on:check="check"
         v-bind:propsdata="todoItems"
         v-bind:message="msg"
+        v-bind:todoCheck="todoCheck"
     />
   </div>
 </template>
@@ -32,15 +33,17 @@ export default {
       editBefore : "",
       isEdit: false,
       msg:"",
-      itemIndex: 0
+      itemIndex: 0,
+      todoCheck:[],
     }
   },
   created(){
         if(localStorage.getItem('todolist')){
           this.msg =""
-          var array = JSON.parse(localStorage.getItem('todolist'))
-          for(var i =0; i <array.length; i++){
-              this.todoItems.push(array[i].item)
+          let array = JSON.parse(localStorage.getItem('todolist'))
+          for(let i =0; i <array.length; i++){
+            this.todoItems.push(array[i].item)
+            this.todoCheck.push(array[i].isCompleted)
           }
         }
         if(this.todoItems.length === 0){
@@ -50,18 +53,17 @@ export default {
   methods: {
     addTodo(itemArray, obj){
       if(this.todoItems.indexOf(obj.item) !== -1){
-        alert("이미 존재하는 할일 입니다.");
+        alert("이미 존재하는 할일 입니다.")
       }
       else{
       this.msg =""
-      var array2 = JSON.stringify(itemArray)
+      let array2 = JSON.stringify(itemArray)
       localStorage.setItem('todolist', array2)
       this.todoItems.push(obj.item)
       }
     },
-    check(obj2){
-      var a =  JSON.stringify(obj2)
-      localStorage.setItem('todolist', a)
+    check(checkTodo){
+      localStorage.setItem('todolist', checkTodo)
     },
     editBtn(isEdit, todoItem, index){
       this.isEdit = isEdit
@@ -72,9 +74,10 @@ export default {
       this.isEdit = isEdit2
       this.todoItems.splice(index,1, editedItem)
     },
-    removeTodo(todoItem, index){
-      localStorage.removeItem(todoItem);
-      this.todoItems.splice(index,1);
+    removeTodo(removeList, index){
+      localStorage.setItem('todolist', removeList)
+      this.todoItems.splice(index,1)
+
       if(this.todoItems.length==0){
         this.msg ="할일이 없어요."
       }
