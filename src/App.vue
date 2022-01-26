@@ -78,7 +78,7 @@ export default {
       localStorage.setItem('todolist', removeList)
       this.todoItems.splice(index,1)
 
-      if(this.todoItems.length==0){
+      if(this.todoItems.length===0){
         this.msg ="할일이 없어요."
       }
     },
@@ -106,7 +106,7 @@ export default {
 }
 
 #app {
-  font-family: 'SANGJUDajungdagam';
+  font-family: 'SANGJUDajungdagam', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
